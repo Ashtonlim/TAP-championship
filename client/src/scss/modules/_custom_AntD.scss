@@ -1,0 +1,37 @@
+.ant-popover.ant-popover-placement-bottom {
+  .ant-popover-arrow {
+    display: none;
+  }
+
+  .ant-popover-inner {
+    border-radius: 12px;
+  }
+}
+
+// modal used in profile.js - UpAO 17-07-21
+.ant-modal-root {
+  .ant-modal-header {
+    background-color: transparent;
+  }
+
+  .ant-modal-content {
+    background-color: $white;
+    border-radius: 10px;
+  }
+}
+
+// For some reason, ALL antd icons are misalligned. this fixes.
+.anticon {
+  display: inline-flex !important;
+}
+
+// For the outer table on portfolio page. Specificity is req here to prevent inner table from using same styling.
+.components-table-demo-nested
+  > .ant-spin-nested-loading
+  > .ant-spin-container
+  > .ant-table
+  > .ant-table-container
+  > .ant-table-content {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border-radius: 0.75rem;
+}

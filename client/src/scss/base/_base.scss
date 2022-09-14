@@ -1,0 +1,31 @@
+@import 'normalize';
+@import 'variables';
+@import 'colors';
+@import 'reusable';
+// @import "tailwindBase";
+
+* {
+  letter-spacing: 0.01em;
+}
+@media screen and (min-width: var(--tablet-s)) {
+  * {
+    font-size: calc(12px + 6 * ((100vw - 320px) / (var(--tablet-s) - 320)));
+  }
+}
+
+#root {
+  height: 100%;
+}
+
+main {
+  margin-top: $heightOfHeader + 35px;
+  min-height: 100vh;
+}
+
+input {
+  display: block;
+}
+
+.darkMode {
+  filter: invert(1) hue-rotate(180deg);
+}

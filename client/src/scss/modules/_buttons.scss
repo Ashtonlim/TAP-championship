@@ -1,0 +1,21 @@
+.btn {
+  display: block;
+  padding: 5px 10px;
+  border-radius: 2px;
+  color: $we;
+  background-color: $theme1;
+  transition: background-color 0.3s;
+  // font-weight: bold;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: lighten($theme1, 10%);
+}
+
+.dateRangeBtns {
+  .dateRangeBtn.focus {
+    background: $c1;
+    color: $white;
+  }
+}
