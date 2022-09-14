@@ -99,6 +99,38 @@ export const registerTeams = async (req, res) => {
   }
 }
 
+export const scoresSubmission = async (req, res) => {
+  try {
+    const scores = req.body.val.split('\n')
+
+    console.log(scores)
+
+    for (let i = 0; i < scores.length; i++) {
+      let [ta, tb, aScored, bScored, ...extra] = scores[i].trim().split(' ')
+      if (extra) {
+        res.status(400).json(createErrMsg('too many args passed'))
+      }
+      aScored = parseInt(aScored)
+      bScored = parseInt(bScored)
+
+      if (ta && tb && !isNaN(aScored) && !isNaN(bScored)) {
+        // check if ta and tb exists
+
+        // calc scoring
+        if (aScored > bScored) {
+          const score = { ta: 3, tb: 0, tas: 5, tbs: 0 }
+        } else if (aScored < bScored) {
+          const score = { ta: 1, tb: 3, tas: 1, tbs: 5 }
+        } else {
+          const score = { ta: 1, tb: 1, tas: 3, tbs: 3 }
+        }
+      }
+    }
+  } catch (err) {
+    res.status(400).json(createErrMsg())
+  }
+}
+
 export const deleteTeams = async (req, res) => {
   try {
     res.json(await teamsModel.deleteMany({}))

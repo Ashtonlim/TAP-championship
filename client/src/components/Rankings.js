@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Button, Table } from 'antd'
 
-import { getRegisteredTeams, deleteTeams } from './api'
+import { getRegisteredTeams, submitScores, deleteTeams } from './api'
 
 const { TextArea } = Input
 
@@ -55,13 +55,15 @@ const Rankings = () => {
     initData()
   }, [])
 
-  const handleScoreSubmit = () => {
-    console.log('calc ranks')
+  const handleScoreSubmit = async () => {
+    if (await submitScores({ val })) {
+      setVal('')
+    }
   }
   const handleDeleteTeamsSubmit = async () => {
-    const res = await deleteTeams()
-    console.log('deleted teams', res)
-    setTeams([])
+    if (await deleteTeams()) {
+      setTeams([])
+    }
   }
 
   const handleInput = (e) => {

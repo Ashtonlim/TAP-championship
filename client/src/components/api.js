@@ -47,6 +47,12 @@ export const registerTeams = async (teamDetails) => {
   )
 }
 
+export const submitScores = async (teamDetails) => {
+  return resHandler(
+    await fetch(`${BASE}/scores`, createReqParams('POST', teamDetails))
+  )
+}
+
 export const deleteTeams = async (teamDetails) => {
   return resHandler(
     await fetch(`${BASE}/deleteTeams`, createReqParams('GET', teamDetails))
