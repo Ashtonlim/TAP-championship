@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Button, Table } from 'antd'
 
-import { getRegisteredTeams } from './api'
+import { getRegisteredTeams, deleteTeams } from './api'
 
 const { TextArea } = Input
 
 const columns = [
+  // {
+  //   title: 'Rank',
+  //   dataIndex: 'pts',
+  //   key: 'team_name',
+  //   defaultSortOrder: 'descend',
+  //   sorter: (a, b) => a.pts - b.pts,
+  // },
   {
     title: 'Team Name',
     dataIndex: 'team_name',
@@ -25,15 +32,15 @@ const columns = [
   },
   {
     title: 'Total Points',
-    dataIndex: 'total_points',
-    key: 'total_points',
+    dataIndex: 'pts',
+    key: 'pts',
     defaultSortOrder: 'descend',
-    sorter: (a, b) => a.total_points - b.total_points,
+    sorter: (a, b) => a.pts - b.pts,
   },
 ]
 
 const Rankings = () => {
-  const [teams, setTeams] = useState([0])
+  const [teams, setTeams] = useState([])
   const [val, setVal] = useState('')
 
   useEffect(() => {
@@ -48,8 +55,13 @@ const Rankings = () => {
     initData()
   }, [])
 
-  const submit = () => {
+  const handleScoreSubmit = () => {
     console.log('calc ranks')
+  }
+  const handleDeleteTeamsSubmit = async () => {
+    const res = await deleteTeams()
+    console.log('deleted teams', res)
+    setTeams([])
   }
 
   const handleInput = (e) => {
@@ -71,28 +83,50 @@ const Rankings = () => {
 
   return (
     <div>
-      <h2>Template</h2>
-      <span>
-        &lt;Team A name&gt; &lt;Team B name&gt; &lt;Team A goals scored&gt; &lt;
-        Team B goals scored&gt;
-      </span>
-      <br />
-      <br />
+      <div className="mtb-2">
+        <h2>Template</h2>
+        <span>
+          &lt;Team A name&gt; &lt;Team B name&gt; &lt;Team A goals scored&gt;
+          &lt; Team B goals scored&gt;
+        </span>
+        <br />
+        <br />
 
-      <h2>Example</h2>
-      <span>
-        firstTeam secondTeam 0 3<br />
-        thirdTeam fourthTeam 1 1
-      </span>
+        <h2>Example</h2>
+        <span>
+          firstTeam secondTeam 0 3<br />
+          thirdTeam fourthTeam 1 1
+        </span>
 
-      <br />
-      <br />
+        <br />
+        <br />
 
-      <TextArea onChange={handleInput} rows={4} value={val} allowClear={true} />
-      <Button className="mtb-2" onClick={submit} type="primary">
-        SUBMIT
-      </Button>
-      <Table columns={columns} dataSource={teams} pagination={false} />
+        <TextArea
+          onChange={handleInput}
+          rows={4}
+          value={val}
+          allowClear={true}
+        />
+        <Button className="mtb-2" onClick={handleScoreSubmit} type="primary">
+          SUBMIT
+        </Button>
+      </div>
+      <div>
+        <Button
+          className="mtb-3"
+          onClick={handleDeleteTeamsSubmit}
+          type="primary"
+          danger
+        >
+          Delete Teams
+        </Button>
+        <Table
+          columns={columns}
+          dataSource={teams}
+          pagination={false}
+          rowKey="_id"
+        />
+      </div>
     </div>
   )
 }

@@ -19,8 +19,10 @@ const teamSchema = mongoose.Schema(
     },
     date_reg: { type: String, required: true },
     grp_num: { type: Number, required: true, enum: [1, 2] },
-    total_points: { type: Number, required: true, default: 0 },
+    pts: { type: Number, required: true, default: 0 },
+    secondary_pts: { type: Number, required: true, default: 0 },
     total_goals: { type: Number, required: true, default: 0 },
+
     matches: [
       {
         type: matchSchema,

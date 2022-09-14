@@ -11,8 +11,12 @@ dayjs.extend(require('dayjs/plugin/customParseFormat'))
 const Register = () => {
   const [val, setVal] = useState('')
 
-  const submit = () => {
-    registerTeams({ val: val.split('\n') })
+  const submit = async () => {
+    const res = await registerTeams({ val: val.split('\n') })
+    console.log(res, res.ok)
+
+    // clearData
+    setVal('')
   }
 
   const handleInput = (e) => {

@@ -12,7 +12,15 @@ export const getAllTeams = async (req, res) => {
     res.json(
       await teamsModel.find(
         {},
-        { _id: 0, team_name: 1, date_reg: 1, grp_num: 1, total_points: 1 }
+        {
+          _id: 1,
+          team_name: 1,
+          date_reg: 1,
+          grp_num: 1,
+          pts: 1,
+          secondary_pts: 1,
+          total_goals: 1,
+        }
       )
     )
   } catch (err) {
@@ -73,7 +81,14 @@ export const registerTeams = async (req, res) => {
         })
       }
 
-      teams.push({ team_name, date_reg, grp_num })
+      teams.push({
+        team_name,
+        date_reg,
+        grp_num,
+        pts: 0,
+        secondary_pts: 0,
+        total_goals: 0,
+      })
     }
 
     const savedObj = await teamsModel.insertMany(teams)
@@ -81,5 +96,13 @@ export const registerTeams = async (req, res) => {
     console.log('@controller.js: registering new user... ', savedObj)
   } catch ({ message }) {
     res.status(400).json(createErrMsg({ message }))
+  }
+}
+
+export const deleteTeams = async (req, res) => {
+  try {
+    res.json(await teamsModel.deleteMany({}))
+  } catch (err) {
+    res.status(400).json(createErrMsg())
   }
 }

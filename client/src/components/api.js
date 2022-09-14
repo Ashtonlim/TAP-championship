@@ -46,3 +46,9 @@ export const registerTeams = async (teamDetails) => {
     await fetch(`${BASE}/teams`, createReqParams('POST', teamDetails))
   )
 }
+
+export const deleteTeams = async (teamDetails) => {
+  return resHandler(
+    await fetch(`${BASE}/deleteTeams`, createReqParams('GET', teamDetails))
+  )
+}
