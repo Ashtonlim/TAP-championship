@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
-import { Input, Button, Col, Divider, Row } from 'antd'
+import { Col, Divider, Row } from 'antd'
 
 import MainLayout from './layouts/MainLayout'
-import DisplayTeams from './Home/DisplayTeams'
-import Form from './Home/Form'
+import DisplayTeams from './common/DisplayTeams'
+import Form from './common/Form'
 
 import { registerTeams, getRegisteredTeams } from './api'
 
 dayjs.extend(require('dayjs/plugin/customParseFormat'))
 
 const Register = () => {
-  const [val, setVal] = useState('')
   const [teams, setTeams] = useState([])
 
   useEffect(() => {

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Col, Divider, Row } from 'antd'
 
 import MainLayout from './layouts/MainLayout'
-import Form from './Home/Form'
-import DisplayTeams from './Home/DisplayTeams'
+import Form from './common/Form'
+import DisplayTeams from './common/DisplayTeams'
 import { getRegisteredTeams, submitScores } from './api'
 
 const Home = () => {

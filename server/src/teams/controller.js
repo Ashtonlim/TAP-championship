@@ -100,9 +100,9 @@ export const registerTeams = async (req, res) => {
 }
 
 export const scoresSubmission = async (req, res) => {
-  const scores = req.body.val.split('\n')
-
   try {
+    const scores = req.body.val.split('\n')
+
     const mongodbTeamNames = await teamsModel.find({}, { _id: 0, team_name: 1 })
     const calcPoints = mongodbTeamNames.reduce((acc, curr) => {
       acc[curr['team_name']] = { pts: 0, secondary_pts: 0, total_goals: 0 }
