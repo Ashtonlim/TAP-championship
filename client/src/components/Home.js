@@ -23,14 +23,12 @@ const Home = () => {
   }, [])
 
   const handleInputValidation = (text) => {
-    const lines = text.split('\n')
+    // const lines = text.split('\n')
     // for (let i = 0; i < lines.length; i++) {
     //   console.log(`line ${i + 1}`)
-
     //   const [teamA, teamB, aScores, bScores, ...extra] = lines[i]
     //     .trim()
     //     .split(' ')
-
     //   // const aScores = parseInt(aScores)
     //   // const bScores = parseInt(bScores)
     // }
