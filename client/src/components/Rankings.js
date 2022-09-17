@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Button, Table } from 'antd'
+import { PoweroffOutlined } from '@ant-design/icons'
 
 import { getRegisteredTeams, submitScores, deleteTeams } from './api'
 
@@ -42,6 +43,7 @@ const columns = [
 const Rankings = () => {
   const [teams, setTeams] = useState([])
   const [val, setVal] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const initData = async () => {
@@ -56,8 +58,15 @@ const Rankings = () => {
   }, [])
 
   const handleScoreSubmit = async () => {
-    if (await submitScores({ val })) {
-      setVal('')
+    setLoading(true)
+    try {
+      if (await submitScores({ val })) {
+        setVal('')
+        setLoading(false)
+      }
+    } catch (err) {
+      setLoading(false)
+      console.log('asdcas', err)
     }
   }
   const handleDeleteTeamsSubmit = async () => {
@@ -96,8 +105,8 @@ const Rankings = () => {
 
         <h2>Example</h2>
         <span>
-          firstTeam secondTeam 0 3<br />
-          thirdTeam fourthTeam 1 1
+          teamA teamB 0 1<br />
+          teamB teamC 1 3
         </span>
 
         <br />
@@ -109,7 +118,13 @@ const Rankings = () => {
           value={val}
           allowClear={true}
         />
-        <Button className="mtb-2" onClick={handleScoreSubmit} type="primary">
+        <Button
+          value
+          className="mtb-2"
+          onClick={handleScoreSubmit}
+          loading={loading}
+          type="primary"
+        >
           SUBMIT
         </Button>
       </div>
