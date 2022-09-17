@@ -31,7 +31,7 @@ const DisplayTeams = ({ teams, setTeams }) => {
             <Statistic
               title="Teams in Group 2"
               value={teams.reduce(
-                (acc, { grp_num }) => (grp_num === 1 ? acc + 1 : acc),
+                (acc, { grp_num }) => (grp_num === 2 ? acc + 1 : acc),
                 0
               )}
             />
@@ -91,6 +91,20 @@ const columns = [
     key: 'pts',
     defaultSortOrder: 'descend',
     sorter: (a, b) => a.pts - b.pts,
+  },
+  {
+    title: 'Secondary Points',
+    dataIndex: 'secondary_pts',
+    key: 'secondary_pts',
+    defaultSortOrder: 'descend',
+    sorter: (a, b) => a.secondary_pts - b.secondary_pts,
+  },
+  {
+    title: 'Total Goals',
+    dataIndex: 'total_goals',
+    key: 'total_goals',
+    defaultSortOrder: 'descend',
+    sorter: (a, b) => a.total_goals - b.total_goals,
   },
 ]
 

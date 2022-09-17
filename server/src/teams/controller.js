@@ -102,9 +102,13 @@ export const registerTeams = async (req, res) => {
 export const scoresSubmission = async (req, res) => {
   try {
     const scores = req.body.val.split('\n')
-
-    const mongodbTeamNames = await teamsModel.find({}, { _id: 0, team_name: 1 })
+    const mongodbTeamNames = await teamsModel.find(
+      {},
+      { _id: 0, team_name: 1, grp_num: 1 }
+    )
+    const trackGrpNum = {}
     const calcPoints = mongodbTeamNames.reduce((acc, curr) => {
+      trackGrpNum[curr['team_name']] = curr['grp_num']
       acc[curr['team_name']] = { pts: 0, secondary_pts: 0, total_goals: 0 }
       return acc
     }, {})
@@ -121,8 +125,18 @@ export const scoresSubmission = async (req, res) => {
         return
       }
 
+      if (trackGrpNum[ta] !== trackGrpNum[tb]) {
+        console.log(ta, tb, trackGrpNum[ta], trackGrpNum[tb])
+        res.status(401).json(
+          createErrMsg({
+            message: `${ta} and ${tb} are in different groups`,
+          })
+        )
+        return
+      }
+
       if (extra.length) {
-        console.log(scores[i], extra)
+        console.log('extra', extra)
         res.status(400).json(createErrMsg({ message: 'too many args passed' }))
         return
       }
@@ -142,17 +156,19 @@ export const scoresSubmission = async (req, res) => {
         if (aScored > bScored) {
           calcPoints[ta]['pts'] += 3
           calcPoints[ta]['secondary_pts'] += 5
-          calcPoints[tb]['secondary_pts'] += 5
+          calcPoints[tb]['secondary_pts'] += 1
         } else if (aScored < bScored) {
-          calcPoints[ta]['pts'] += 3
-          calcPoints[ta]['secondary_pts'] += 5
+          calcPoints[tb]['pts'] += 3
           calcPoints[tb]['secondary_pts'] += 5
+          calcPoints[ta]['secondary_pts'] += 1
         } else {
-          const score = { ta: 1, tb: 1, tas: 3, tbs: 3 }
           calcPoints[ta]['pts'] += 1
           calcPoints[tb]['pts'] += 1
           calcPoints[ta]['secondary_pts'] += 3
           calcPoints[tb]['secondary_pts'] += 3
+        }
+        if (tb == 'teamJ' || ta == 'teamJ') {
+          console.log(calcPoints['teamJ'])
         }
 
         calcPoints[ta]['total_goals'] += aScored
@@ -168,6 +184,28 @@ export const scoresSubmission = async (req, res) => {
     }
     res.status(201).json({ ok: 'ok' })
     return
+  } catch (err) {
+    res.status(400).json(createErrMsg())
+  }
+}
+
+export const resetPoints = async (req, res) => {
+  try {
+    await teamsModel.updateMany(
+      {},
+      { $set: { pts: 0, secondary_pts: 0, total_goals: 0 } }
+    )
+    res.status(201).json({ ok: 'ok' })
+
+    // const mongodbTeamNames = await teamsModel.find({}, { _id: 0, team_name: 1, grp_num: 1 })
+    // for (let i = 0; i<  mongodbTeamNames.length; i++){
+    //   mongodbTeamNames[i]['team_name']
+
+    // }
+    // const calcPoints = mongodbTeamNames.reduce((acc, curr) => {
+    //   acc[curr['team_name']] = { pts: 0, secondary_pts: 0, total_goals: 0 }
+    //   return acc
+    // }, {})
   } catch (err) {
     res.status(400).json(createErrMsg())
   }

@@ -4,6 +4,7 @@ import { Col, Divider, Row } from 'antd'
 import MainLayout from './layouts/MainLayout'
 import Form from './common/Form'
 import DisplayTeams from './common/DisplayTeams'
+import Rankings from './Rankings'
 import { getRegisteredTeams, submitScores } from './api'
 
 const Home = () => {
@@ -39,6 +40,7 @@ const Home = () => {
     <MainLayout>
       <div>
         <h1>Championship Cup</h1>
+        <Rankings teams={teams}></Rankings>
       </div>
 
       <div className="mtb-2">
