@@ -29,7 +29,7 @@ export const getAllTeams = async (req, res) => {
 }
 
 export const registerTeams = async (req, res) => {
-  const { val } = req.body
+  const val = req.body.val.split('\n')
   const teams = []
 
   try {

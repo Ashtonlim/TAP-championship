@@ -1,28 +1,33 @@
-import React, { useState } from 'react'
-import { Input, Button } from 'antd'
+import React, { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
+import { Input, Button, Col, Divider, Row } from 'antd'
 
 import MainLayout from './layouts/MainLayout'
-import { registerTeams } from './api'
+import DisplayTeams from './Home/DisplayTeams'
+import Form from './Home/Form'
 
-const { TextArea } = Input
+import { registerTeams, getRegisteredTeams } from './api'
+
 dayjs.extend(require('dayjs/plugin/customParseFormat'))
 
 const Register = () => {
   const [val, setVal] = useState('')
+  const [teams, setTeams] = useState([])
 
-  const submit = async () => {
-    const res = await registerTeams({ val: val.split('\n') })
-    console.log(res, res.ok)
+  useEffect(() => {
+    const initData = async () => {
+      try {
+        let res = await getRegisteredTeams()
+        setTeams(res)
+      } catch (err) {
+        alert(err)
+      }
+    }
+    initData()
+  }, [])
 
-    // clearData
-    setVal('')
-  }
-
-  const handleInput = (e) => {
-    const { value } = e.target
-
-    const lines = value.split('\n')
+  const handleInputValidation = (text) => {
+    const lines = text.split('\n')
     for (let i = 0; i < lines.length; i++) {
       console.log(`line ${i + 1}`)
 
@@ -48,32 +53,52 @@ const Register = () => {
         console.log(`grp number must be 1 or 2, not ${grpNum}`)
       }
     }
-    setVal(value)
   }
 
   return (
     <MainLayout>
-      <h2>Template {dayjs().year()}</h2>
-      <div>
-        {' '}
-        Format &lt;Team A name&gt; &lt;Team A registration date in DD/MM&gt;
-        &lt; Team A group number&gt;
+      <div className="mtb-2">
+        <Divider orientation="left">
+          <h1>Register New Teams for {dayjs().year()} Championship Cup</h1>
+        </Divider>
+        <Row>
+          <Col flex={5}>
+            <div className="mr-5">
+              <Form
+                setTeams={setTeams}
+                handleInputValidation={handleInputValidation}
+                submitDataHandler={registerTeams}
+              ></Form>
+            </div>
+          </Col>
+          <Col flex={3}>
+            <div>
+              <h2>Template</h2>
+              <div>
+                &lt;Team A name&gt; &lt;Team A registration date in DD/MM&gt;
+                &lt; Team A group number&gt;
+              </div>
+
+              <br />
+
+              <h2>Example</h2>
+              <div>
+                firstTeam 17/05 2<br />
+                secondTeam 07/02 2
+              </div>
+
+              <br />
+              <br />
+            </div>
+          </Col>
+        </Row>
       </div>
-
-      <br />
-
-      <h2>Example</h2>
-      <div>
-        firstTeam 17/05 2<br />
-        secondTeam 07/02 2
+      <div className="mt-5">
+        <Divider orientation="left">
+          <h1>Current Teams</h1>
+        </Divider>
+        <DisplayTeams teams={teams} setTeams={setTeams}></DisplayTeams>
       </div>
-
-      <br />
-      <br />
-      <TextArea onChange={handleInput} rows={4} value={val} allowClear={true} />
-      <Button className="mtb-2" onClick={submit} type="primary">
-        SUBMIT
-      </Button>
     </MainLayout>
   )
 }
