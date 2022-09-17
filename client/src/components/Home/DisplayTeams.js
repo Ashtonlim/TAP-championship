@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, Table } from 'antd'
+import { Button, Table, Col, Row, Statistic, Divider } from 'antd'
+import { Link } from 'react-router-dom'
 
 import { deleteTeams } from '../api'
 
@@ -12,15 +13,43 @@ const DisplayTeams = ({ teams, setTeams }) => {
 
   return (
     <div>
-      <Button
-        className="mb-3"
-        onClick={handleDeleteTeamsSubmit}
-        type="primary"
-        danger
-        style={{ float: 'right' }}
-      >
-        Delete All Teams
-      </Button>
+      <Divider orientation="left">
+        <h1>Current Teams</h1>
+      </Divider>
+      <div className="mb-3">
+        <Row gutter={16} align="middle">
+          <Col span={4}>
+            <Statistic
+              title="Teams in Group 1"
+              value={teams.reduce(
+                (acc, { grp_num }) => (grp_num === 1 ? acc + 1 : acc),
+                0
+              )}
+            />
+          </Col>
+          <Col span={4}>
+            <Statistic
+              title="Teams in Group 2"
+              value={teams.reduce(
+                (acc, { grp_num }) => (grp_num === 1 ? acc + 1 : acc),
+                0
+              )}
+            />
+          </Col>
+
+          <Col span={16}>
+            <div style={{ float: 'right', justifyContent: 'middle' }}>
+              <Button className="mr-3" type="primary">
+                <Link to="/register">Add New Teams</Link>
+              </Button>
+              <Button onClick={handleDeleteTeamsSubmit} type="primary" danger>
+                Delete All Teams
+              </Button>
+            </div>
+          </Col>
+        </Row>
+      </div>
+
       <Table
         columns={columns}
         dataSource={teams}

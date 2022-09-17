@@ -59,7 +59,7 @@ const Register = () => {
     <MainLayout>
       <div className="mtb-2">
         <Divider orientation="left">
-          <h1>Register New Teams for {dayjs().year()} Championship Cup</h1>
+          <h2>Register New Teams for {dayjs().year()} Championship Cup</h2>
         </Divider>
         <Row>
           <Col flex={5}>
@@ -94,9 +94,6 @@ const Register = () => {
         </Row>
       </div>
       <div className="mt-5">
-        <Divider orientation="left">
-          <h1>Current Teams</h1>
-        </Divider>
         <DisplayTeams teams={teams} setTeams={setTeams}></DisplayTeams>
       </div>
     </MainLayout>

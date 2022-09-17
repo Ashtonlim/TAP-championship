@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Col, Divider, Row } from 'antd'
-import { Link } from 'react-router-dom'
+import { Col, Divider, Row } from 'antd'
 
 import MainLayout from './layouts/MainLayout'
 import Form from './Home/Form'
@@ -24,25 +23,22 @@ const Home = () => {
 
   const handleInputValidation = (text) => {
     const lines = text.split('\n')
-    for (let i = 0; i < lines.length; i++) {
-      console.log(`line ${i + 1}`)
+    // for (let i = 0; i < lines.length; i++) {
+    //   console.log(`line ${i + 1}`)
 
-      const [teamA, teamB, aScores, bScores, ...extra] = lines[i]
-        .trim()
-        .split(' ')
+    //   const [teamA, teamB, aScores, bScores, ...extra] = lines[i]
+    //     .trim()
+    //     .split(' ')
 
-      // const aScores = parseInt(aScores)
-      // const bScores = parseInt(bScores)
-    }
+    //   // const aScores = parseInt(aScores)
+    //   // const bScores = parseInt(bScores)
+    // }
   }
 
   return (
     <MainLayout>
       <div>
-        <h1>Championship</h1>{' '}
-        <Button className="mb-3" type="primary">
-          <Link to="/register">Register here</Link>
-        </Button>
+        <h1>Championship Cup</h1>
       </div>
 
       <div className="mtb-2">
